@@ -1,4 +1,4 @@
-# Zomato Spend Analyzer 🍽️📊
+# Zomato Spend Analyzer 
 
 An n8n + AI workflow system that:
 - Reads Zomato invoices from Gmail
@@ -9,21 +9,22 @@ An n8n + AI workflow system that:
 
 ## Workflows
 
-- `workflows/zomato-email-to-sheet.json`  
+- `workflows/Zomato – Email to Sheet.json`  
   Reads Zomato emails daily, parses invoices, and appends spend data into a Google Sheet.
 
-- `workflows/zomato-monthly-report-and-recipes.json`  
+- `workflows/Zomato – Monthly Report & Recipes.json`  
   Runs monthly, analyzes the past month’s data, generates charts and insights, and emails two reports:
   1) Spend analysis  
   2) Recipe recommendations based on most ordered items.
 
-- `workflows/zomato-budget-alerts.json`  
+- `workflows/Zomato – Budget Alerts.json`  
   Checks your monthly spend against your budget and sends Telegram alerts when you hit 80% and 100%.
 
 ## Docs
 
 - ![Architecture](docs/architecture-diagram.png)
-- ![Sample Report](docs/sample-report.png)
+- ![Sample Monthly Analysis](docs/Sample-monthly-analyis.png)
+- ![Sample Monthly Recipes](docs/Sample-monthly-recipes.png)
 
 ## Tech Stack
 
