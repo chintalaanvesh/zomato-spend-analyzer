@@ -1,0 +1,762 @@
+{
+  "name": "Zomato – Monthly Report & Recipes",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyMonth",
+              "hour": 0
+            }
+          ]
+        }
+      },
+      "id": "be4c40df-4ec9-44e0-8549-bd657d99fb33",
+      "name": "Cron Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        -928,
+        528
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA",
+          "mode": "list",
+          "cachedResultName": "Zomato spend",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -720,
+        528
+      ],
+      "id": "3c2fb54a-d2bc-44a9-8eae-ae7ba38818ad",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8hLYyfbigEkmTjt7",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://quickchart.io/chart/create",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({ chart: $json.charts.dow, backgroundColor: 'white' }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -32,
+        512
+      ],
+      "id": "066e3ae0-13a9-4a17-8b03-3dba9ce1336c",
+      "name": "Day-of-week vs Spend"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://quickchart.io/chart/create",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({ chart: $json.charts.restFreq, backgroundColor: 'white' }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -32,
+        672
+      ],
+      "id": "249166a3-c807-47bd-a257-d98f59a716b7",
+      "name": "Restaurant Frequency"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://quickchart.io/chart/create",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({ chart: $json.charts.restSpendPie, backgroundColor: 'white' }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -32,
+        864
+      ],
+      "id": "ac40167b-0120-4600-b644-f5975b5d5837",
+      "name": "Restaurant vs Spend (pie)"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://quickchart.io/chart/create",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({ chart: $json.charts.weekSpend, backgroundColor: 'white' }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -32,
+        1088
+      ],
+      "id": "4ffba5a9-63dc-4c73-afdd-33031bc6320d",
+      "name": "Week 1/2/3/4 vs Spend"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json[\"url\"] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        496,
+        512
+      ],
+      "id": "ef6ffb25-278b-420d-bc3b-7df2eafeda64",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "23a2d102-9876-4958-83e8-590eb8f26f3b",
+              "name": "Ordered Items",
+              "value": "={{ $json['Items '] }}",
+              "type": "string"
+            },
+            {
+              "id": "ae61b1c2-de6b-4a06-ad77-06385ba383ac",
+              "name": "Restaurant",
+              "value": "={{ $json.Restaurant }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -768,
+        816
+      ],
+      "id": "997f8627-616a-44a6-8ab4-d5f0d1ef5fe9",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -448,
+        1040
+      ],
+      "id": "f6391102-f371-4f47-9230-7f988c0b9f89",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "0mJw6adwDFRk62ts",
+          "name": "anvesh-openai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "muskansmail0@gmail.com",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {
+          "appendAttribution": false,
+          "senderName": "Anvesh"
+        }
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        -304,
+        1040
+      ],
+      "id": "bea1eb14-f209-45e1-a994-f29113622bf8",
+      "name": "Send a message in Gmail",
+      "webhookId": "27a5a598-5bf1-4adb-8da5-b2ef0a464e84",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "hBtr6pSU2PwY4EB9",
+          "name": "muskan gmail"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -608,
+        816
+      ],
+      "id": "dcfcbd1f-36ce-4019-ac6d-bed773df16df",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Input: items from Google Sheets node\nconst rows = items.map(i => i.json);\n\n// Helper: parse money string to number (strip commas, INR symbol if any)\nfunction parseMoney(v) {\n  if (v === null || v === undefined) return 0;\n  let s = String(v).trim();\n  s = s.replace(/[₹, ]/g, \"\");\n  const n = parseFloat(s);\n  return isNaN(n) ? 0 : n;\n}\n\n// Helper: parse date/time to JS Date\nfunction makeDate(dateStr, timeStr) {\n  // Assume dateStr is in a recognizable format (e.g., 2025-11-22 or 22-11-2025)\n  // Try Date constructor fallback\n  try {\n    // some sheets export date as serial number, but usually string\n    const combined = (dateStr || \"\") + \" \" + (timeStr || \"\");\n    const d = new Date(combined);\n    if (!isNaN(d)) return d;\n  } catch (e) {}\n  // fallback\n  return new Date(dateStr);\n}\n\n// Meal bucket logic (adjust as you want)\nfunction mealBucketFromTime(timeStr, dateObj) {\n  // timeStr might be \"12:30\" or the dateObj contains time; normalize\n  let hour = dateObj ? dateObj.getHours() : null;\n  if (hour === null || isNaN(hour)) {\n    if (timeStr) {\n      const parts = timeStr.split(\":\");\n      hour = parseInt(parts[0] || 0, 10);\n    } else {\n      hour = 12; // default to lunch\n    }\n  }\n  if (hour < 11) return \"Breakfast\";\n  if (hour < 16) return \"Lunch\";\n  return \"Dinner\";\n}\n\n// Build arrays\nconst entries = rows.map(r => {\n  const dateStr = r['Date'];\n  const timeStr = r['Time'];\n  const rest = r['Restaurant'] || \"Unknown\";\n  const total = parseMoney(r['Total Cost'] || r['Total'] || r['TotalCost'] || 0);\n  const dateObj = makeDate(dateStr, timeStr);\n  const dow = dateObj && !isNaN(dateObj) ? ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][dateObj.getDay()] : \"Unknown\";\n  // week-of-month calculation: get day and compute which week (1..5)\n  const dayOfMonth = dateObj.getDate ? dateObj.getDate() : 1;\n  const weekOfMonth = Math.ceil(dayOfMonth/7); // 1..5\n  const meal = mealBucketFromTime(timeStr, dateObj);\n\n  return { dateStr, timeStr, rest, total, dateObj, dow, weekOfMonth, meal };\n});\n\n// Aggregations\nlet totalSpend = 0;\nconst mealSums = { Breakfast:0, Lunch:0, Dinner:0 };\nconst dowSums = { Sun:0, Mon:0, Tue:0, Wed:0, Thu:0, Fri:0, Sat:0 };\nconst restSums = {}; // restaurant -> total\nconst restFreq = {}; // restaurant -> count\nconst weekSums = {}; // week1..week5\n\nentries.forEach(e => {\n  totalSpend += e.total;\n  if (mealSums[e.meal] === undefined) mealSums[e.meal] = 0;\n  mealSums[e.meal] += e.total;\n\n  if (dowSums[e.dow] === undefined) dowSums[e.dow] = 0;\n  dowSums[e.dow] += e.total;\n\n  restSums[e.rest] = (restSums[e.rest] || 0) + e.total;\n  restFreq[e.rest] = (restFreq[e.rest] || 0) + 1;\n\n  const wk = `Week ${e.weekOfMonth}`;\n  weekSums[wk] = (weekSums[wk] || 0) + e.total;\n});\n\n// Sort restaurants by spend desc (for nicer charts)\nconst restaurantsSorted = Object.keys(restSums).sort((a,b)=> restSums[b]-restSums[a]);\n\n// Create chart configs for QuickChart\nfunction barConfig(labels, data, title) {\n  return {\n    type: 'bar',\n    data: {\n      labels,\n      datasets: [{ label: 'Amount (INR)', data }]\n    },\n    options: {\n      title: { display: true, text: title },\n      legend: { display: false },\n      scales: { yAxes:[{ ticks: { beginAtZero:true } }] }\n    }\n  };\n}\nfunction pieConfig(labels, data, title) {\n  return {\n    type: 'pie',\n    data: { labels, datasets: [{ data }] },\n    options: { title: { display: true, text: title } }\n  };\n}\n\n// Prepare chart payloads\nconst mealLabels = Object.keys(mealSums);\nconst mealValues = mealLabels.map(l => Math.round(mealSums[l] * 100) / 100);\n\nconst dowOrder = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']; // order Mon..Sun\nconst dowLabels = dowOrder;\nconst dowValues = dowOrder.map(d => Math.round((dowSums[d] || 0) * 100) / 100);\n\nconst restLabels = restaurantsSorted;\nconst restValues = restLabels.map(r => Math.round((restSums[r] || 0) * 100) / 100);\n\nconst weekLabels = Object.keys(weekSums).sort((a,b) => parseInt(a.split(' ')[1]) - parseInt(b.split(' ')[1]));\nconst weekValues = weekLabels.map(w => Math.round(weekSums[w] * 100) / 100);\n\n// Restaurant frequency chart (top restaurants by count)\nconst freqLabels = Object.keys(restFreq).sort((a,b) => restFreq[b] - restFreq[a]);\nconst freqValues = freqLabels.map(r => restFreq[r]);\n\n// Build chart configs\nconst charts = {\n  meal: barConfig(mealLabels, mealValues, 'Breakfast vs Lunch vs Dinner Spend'),\n  dow: barConfig(dowLabels, dowValues, 'Day of Week vs Spend'),\n  restFreq: barConfig(freqLabels, freqValues, 'Restaurant Visit Frequency'),\n  restSpendPie: pieConfig(restLabels, restValues, 'Restaurant vs Spend (Pie)'),\n  weekSpend: barConfig(weekLabels, weekValues, 'Week 1/2/3/4 vs Spend')\n};\n\n// Output\nreturn [\n  {\n    json: {\n      summary: {\n        totalSpend: Math.round(totalSpend * 100)/100,\n        numRows: entries.length\n      },\n      datasets: {\n        meal: { labels: mealLabels, values: mealValues },\n        dow: { labels: dowLabels, values: dowValues },\n        restFreq: { labels: freqLabels, values: freqValues },\n        restSpend: { labels: restLabels, values: restValues },\n        weekSpend: { labels: weekLabels, values: weekValues }\n      },\n      charts // chart JS objects (not stringified)\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -512,
+        528
+      ],
+      "id": "0c336824-e890-4e2f-b6f1-0ad27c3e74d8",
+      "name": "Clean & Normalize Spend Data"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Combine Attachments - collapse multiple items (each with binary image) into one item\n// Friendly map order must match the Merge order that produced the images\nconst nameMap = [\n  'Breakfast_vs_Lunch_vs_Dinner',\n  'Day_of_Week_vs_Spend',\n  'Restaurant_Frequency',\n  'Restaurant_vs_Spend_pie',\n  'Week_vs_Spend'\n];\n\n// output single item\nconst out = { json: {}, binary: {} };\n\n// Attach each incoming binary into out.binary using the friendly name + .png\nitems.forEach((it, idx) => {\n  // find first binary property on the incoming item (HTTP Request3 typically uses 'data')\n  const binKeys = it.binary ? Object.keys(it.binary) : [];\n  if (binKeys.length === 0) return; // no binary on this item\n\n  const incomingKey = binKeys[0];\n  const friendlyBase = nameMap[idx] || (`chart_${idx+1}`);\n  // construct final binary property name (no spaces)\n  const propName = friendlyBase + '.png';\n  // copy the whole binary object for that key\n  out.binary[propName] = it.binary[incomingKey];\n  // also carry the original filename if available in JSON (optional)\n  out.json[propName + '_meta'] = it.json?.name || it.json?.url || null;\n});\n\n// Copy summary from the Code in JavaScript node (single source)\nconst summarySource = $items('Clean & Normalize Spend Data')?.[0]?.json || {};\nout.json.summary = summarySource.summary || { totalSpend: 0, numRows: 0 };\n\n// Optionally include a small meal breakdown (if you want in body)\nout.json.datasets = summarySource.datasets || {};\n\n// return single item\nreturn [ out ];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        704,
+        512
+      ],
+      "id": "6d79359f-0b81-4d8f-b21c-5237a1ee0ebc",
+      "name": "Weekly Summary Template"
+    },
+    {
+      "parameters": {
+        "numberInputs": 5
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        272,
+        464
+      ],
+      "id": "0f143d7e-95b0-4a8d-aa2f-787365ef04d8",
+      "name": "Combine All Chart URLs & Metrics"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.data }}",
+        "options": {
+          "systemMessage": "=#Overview\n\nYou are a fast, taste-aligned meal-planning assistant. Input: a user’s monthly food-ordering profile (top restaurants, frequent dishes). \n\nOutput: Send a mail with 3 quick, healthier recipe alternatives inspired by the user’s most frequent orders, usual flavors, plus a minimal grocery micro-list covering all three recipes. Prioritize speed, Indian-friendly ingredients, minimal waste, and flavor similarity to the user’s habits.\n\n#Tools (Gmail)\n\nYou can send email using Gmail. ALWAYS write the email in HTML with newlines <br><br>\n with the subject:\n“Your 3 Quick Healthy Recipes & Grocery List”\nNo tool debugging info in the email.\n\n#Rules\n\n1. The final output must be concise and in HTML format\n\n2. Base recipes on the user’s most-ordered flavors (e.g., biryani → biryani-lite bowl, sandwiches → grilled wrap, snacks → lighter baked bowl).\n\n3. Use common Indian pantry staples; avoid exotic items; maximize ingredient overlap.\n\n4. Responses must be deterministic (low randomness)."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        -448,
+        816
+      ],
+      "id": "ee658611-977b-41c4-b279-8c87e936c409",
+      "name": "AI Insights Generator"
+    },
+    {
+      "parameters": {
+        "sendTo": "muskansmail0@gmail.com",
+        "subject": "={{ 'Zomato Spend Report - ' + $now.format('LL/yyyy') }}",
+        "message": "={{\n(() => {\n  const s = $json.summary || {};\n  const datasets = $json.datasets || {};\n  const rupee = n => 'INR ' + (Math.round((Number(n) + Number.EPSILON)*100)/100).toLocaleString('en-IN');\n\n  const topLabel = (obj) => {\n    if (!obj || !obj.labels || !obj.values) return 'N/A';\n    const vals = obj.values.map(x => Number(x) || 0);\n    const idx = vals.indexOf(Math.max(...vals));\n    return obj.labels[idx] || 'N/A';\n  };\n\n  return `\n  <div style=\"font-family: Arial, sans-serif; font-size: 14px;\">\n    <p>Hi,</p>\n\n    <p>Hope you are having a great day. Below is the Zomato spend report for this month.</p>\n\n    <p><b>Key highlights:</b></p>\n    <ol>\n      <li><b>Total Spend:</b> ${rupee(s.totalSpend)}</li>\n      <li><b>Day of the week with most spend:</b> ${topLabel(datasets.dow)}</li>\n      <li><b>Most frequently visited restaurant:</b> ${topLabel(datasets.restFreq)}</li>\n      <li><b>Week with most spend:</b> ${topLabel(datasets.weekSpend)}</li>\n    </ol>\n\n    <p>Attached are the charts with spend patterns.</p>\n\n    <p>Best,<br>\n    Anvesh</p>\n  </div>\n  `;\n})()\n}}",
+        "options": {
+          "appendAttribution": false,
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {
+                "property": "Breakfast_vs_Lunch_vs_Dinner.png"
+              },
+              {
+                "property": "Day_of_Week_vs_Spend.png"
+              },
+              {
+                "property": "Restaurant_Frequency.png"
+              },
+              {
+                "property": "Restaurant_vs_Spend_pie.png"
+              },
+              {
+                "property": "Week_vs_Spend.png"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        912,
+        512
+      ],
+      "id": "5904bf5d-b930-44ab-87d8-0985209d76a1",
+      "name": "Send Weekly Zomato Summary Email",
+      "webhookId": "6acb4a69-f345-4e4a-a397-9beff743d272",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "hBtr6pSU2PwY4EB9",
+          "name": "muskan gmail"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://quickchart.io/chart/create",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({   chart: $json.charts.meal,   backgroundColor: 'white'  }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -48,
+        352
+      ],
+      "id": "66d29bf0-517c-4cab-a05d-0fbb1d5a778c",
+      "name": "Day-of-Week vs Spend"
+    },
+    {
+      "parameters": {
+        "content": "Runs the entire analytics workflow automatically once a month",
+        "height": 256,
+        "width": 176,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -960,
+        416
+      ],
+      "typeVersion": 1,
+      "id": "067256b5-73de-44a6-8bb5-873498ef2043",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "content": "Reads all rows from your Zomato Spend Sheet",
+        "height": 256,
+        "width": 176,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -752,
+        416
+      ],
+      "typeVersion": 1,
+      "id": "ead9ad6c-5417-45c9-8b1b-cce85aee2f9d",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "content": "Removes nulls, fixes data types, converts dates, and prepares the dataset",
+        "height": 256,
+        "width": 176,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -544,
+        416
+      ],
+      "typeVersion": 1,
+      "id": "4e5b3d37-7d63-410d-8399-8d4160d910ce",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "content": "Prepares structured datasets needed by charts",
+        "height": 256,
+        "width": 176,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -352,
+        416
+      ],
+      "typeVersion": 1,
+      "id": "22590908-de7b-4d06-a702-e98496525a02",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "content": "Merges the outputs of all QuickChart HTTP nodes into one single item.",
+        "height": 368,
+        "width": 192,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        224,
+        336
+      ],
+      "typeVersion": 1,
+      "id": "3014488a-f9f2-41e6-977b-1ac1264e075b",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {
+        "content": "Uploads chart images or generates shareable URLs",
+        "height": 256,
+        "width": 176,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        464,
+        416
+      ],
+      "typeVersion": 1,
+      "id": "f6f8ea81-22b0-4084-b45c-3a8ba8f2e0f8",
+      "name": "Sticky Note15"
+    },
+    {
+      "parameters": {
+        "content": "Builds a clean HTML summary to be sent via email",
+        "height": 256,
+        "width": 176,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        672,
+        416
+      ],
+      "typeVersion": 1,
+      "id": "03f8a1f7-91e4-49dd-8d95-8657295941cf",
+      "name": "Sticky Note16"
+    },
+    {
+      "parameters": {
+        "content": "Sends yourself a beautiful weekly report with charts + AI-written insights",
+        "height": 256,
+        "width": 176,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        880,
+        416
+      ],
+      "typeVersion": 1,
+      "id": "d19f9ccd-bcd7-46f1-9a26-2cc701eb3cc9",
+      "name": "Sticky Note17"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Take the single summary item from Code in JavaScript\nconst summary = $json.summary;\n\n// Add that summary to ALL output items (but we only output 1 item)\nreturn [\n  {\n    json: {\n      summary,\n      charts: $json.charts,\n      datasets: $json.datasets\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -304,
+        528
+      ],
+      "id": "ef4a1a9f-efb7-4578-abad-3426e730bd8e",
+      "name": "Compute Aggregations For Charts"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Cron Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Clean & Normalize Spend Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Day-of-week vs Spend": {
+      "main": [
+        [
+          {
+            "node": "Combine All Chart URLs & Metrics",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Restaurant Frequency": {
+      "main": [
+        [
+          {
+            "node": "Combine All Chart URLs & Metrics",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Restaurant vs Spend (pie)": {
+      "main": [
+        [
+          {
+            "node": "Combine All Chart URLs & Metrics",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Week 1/2/3/4 vs Spend": {
+      "main": [
+        [
+          {
+            "node": "Combine All Chart URLs & Metrics",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Weekly Summary Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Insights Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Insights Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "AI Insights Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean & Normalize Spend Data": {
+      "main": [
+        [
+          {
+            "node": "Compute Aggregations For Charts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Summary Template": {
+      "main": [
+        [
+          {
+            "node": "Send Weekly Zomato Summary Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine All Chart URLs & Metrics": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Day-of-Week vs Spend": {
+      "main": [
+        [
+          {
+            "node": "Combine All Chart URLs & Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compute Aggregations For Charts": {
+      "main": [
+        [
+          {
+            "node": "Day-of-Week vs Spend",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Week 1/2/3/4 vs Spend",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Restaurant vs Spend (pie)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Restaurant Frequency",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Day-of-week vs Spend",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c6a58ff2-427f-47b9-80c0-0f747646bfe0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "17e32a252a2a6e7730cfce5e5cc930969e2fb59d69180c6f036cdff498d50e7e"
+  },
+  "id": "aexI8QuleTPGIEip",
+  "tags": []
+}

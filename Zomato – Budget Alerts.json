@@ -1,0 +1,442 @@
+{
+  "name": "Zomato – Budget Alerts",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "hour": 9
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA",
+          "mode": "list",
+          "cachedResultName": "Zomato spend",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA/edit#gid=0"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        304,
+        896
+      ],
+      "id": "72644e8b-391f-4fb4-ac0a-47a125f84b9f",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "xdVLHGA8Xd6EgPlV",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA",
+          "mode": "list",
+          "cachedResultName": "Zomato spend",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1717588686,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA/edit#gid=1717588686"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        512,
+        896
+      ],
+      "id": "59de5d13-d7b4-4a63-b7ef-358d3732c1f6",
+      "name": "Get row(s) in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8hLYyfbigEkmTjt7",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.data[0].spendPercent.toNumber() }}",
+                    "rightValue": 80,
+                    "operator": {
+                      "type": "number",
+                      "operation": "lt"
+                    },
+                    "id": "cad6428c-cf50-414e-83da-c307788e95ab"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Spend less than 80"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b9ab7566-6f8a-4d1b-babc-8e55884cf777",
+                    "leftValue": "={{ $json.data[0].spendPercent.toNumber() }}",
+                    "rightValue": 100,
+                    "operator": {
+                      "type": "number",
+                      "operation": "lte"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Spend between 80 and 100"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "c9d7a4f0-0e54-42ae-964b-5bd5bc388f7d",
+                    "leftValue": "={{ $json.data[0].spendPercent.toNumber() }}",
+                    "rightValue": 100,
+                    "operator": {
+                      "type": "number",
+                      "operation": "gt"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Spend greater than 100"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        1120,
+        880
+      ],
+      "id": "760a2e0e-16a1-49f1-bdba-631cd41167b2",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "chatId": "1180962879",
+        "text": "Hey Anvesh, you’ve hit 80% of your monthly budget for this month!",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1360,
+        800
+      ],
+      "id": "a357989c-a911-4990-a383-5103e5f7c948",
+      "name": "Send a text message",
+      "webhookId": "0c9a9ee7-7c44-4ee9-9b60-1e9157bdcdc6",
+      "credentials": {
+        "telegramApi": {
+          "id": "Ghc3uwrpKW1RrXnS",
+          "name": "anveshPA_bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "1180962879",
+        "text": "Hey Anvesh, you have exceeded the current month's budget",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1360,
+        992
+      ],
+      "id": "51508441-11d4-412a-a3a5-8ffcb7e1d0c2",
+      "name": "Send a text message1",
+      "webhookId": "db17b995-1418-4ca9-83b6-d60c5e02f24a",
+      "credentials": {
+        "telegramApi": {
+          "id": "Ghc3uwrpKW1RrXnS",
+          "name": "anveshPA_bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "47182175-7eb6-4aec-87ad-234fb3930126",
+              "name": "spendPercent",
+              "value": "={{ \n  ( (Number($json[\"Total Spends\"]) || 0) / \n    (Number($json[\"Monthly Budget\"]) || 1) \n  ) * 100 \n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        704,
+        896
+      ],
+      "id": "4c388f26-54e7-47df-a66d-968feb7b3d90",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        912,
+        896
+      ],
+      "id": "e8fcd0de-a4a1-45e0-9b1e-03e7a4d8583c",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "content": "Run when new spend is added",
+        "height": 256,
+        "width": 176,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        272,
+        816
+      ],
+      "typeVersion": 1,
+      "id": "bf38f364-2ded-4b9c-b01a-4205314291f8",
+      "name": "Sticky Note18"
+    },
+    {
+      "parameters": {
+        "content": "Fetch Current Spend Summary",
+        "height": 256,
+        "width": 176,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        480,
+        816
+      ],
+      "typeVersion": 1,
+      "id": "8869aee0-1d13-4277-bcdf-61436161b541",
+      "name": "Sticky Note19"
+    },
+    {
+      "parameters": {
+        "content": "Calculate Spend Percentage",
+        "height": 256,
+        "width": 176,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        672,
+        816
+      ],
+      "typeVersion": 1,
+      "id": "af06f66c-837a-4688-9b12-f0dc288bb349",
+      "name": "Sticky Note20"
+    },
+    {
+      "parameters": {
+        "content": "Combine All Rows Into a Single Item",
+        "height": 256,
+        "width": 176,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        864,
+        816
+      ],
+      "typeVersion": 1,
+      "id": "19c3e893-5689-4f24-930e-0057b0962752",
+      "name": "Sticky Note21"
+    },
+    {
+      "parameters": {
+        "content": "Check If Spend Crossed Thresholds",
+        "height": 256,
+        "width": 176,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1088,
+        816
+      ],
+      "typeVersion": 1,
+      "id": "a59654b4-c006-461b-901f-db64f290c394",
+      "name": "Sticky Note22"
+    },
+    {
+      "parameters": {
+        "content": "Send 80% Budget Warning",
+        "height": 192,
+        "width": 224,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1312,
+        752
+      ],
+      "typeVersion": 1,
+      "id": "88e9287b-4b23-42c7-9a9f-d1797a15d796",
+      "name": "Sticky Note23"
+    },
+    {
+      "parameters": {
+        "content": "Send 100% Budget Exceeded Alert",
+        "height": 176,
+        "width": 224,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1312,
+        960
+      ],
+      "typeVersion": 1,
+      "id": "30bab963-055f-41db-95b4-6aea76be0d7f",
+      "name": "Sticky Note24"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "cb937c53-7f82-4b04-8957-2e2ce7558631",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "17e32a252a2a6e7730cfce5e5cc930969e2fb59d69180c6f036cdff498d50e7e"
+  },
+  "id": "0aam7xjaQyW1GG1x",
+  "tags": []
+}
