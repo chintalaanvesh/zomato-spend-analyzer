@@ -1,0 +1,710 @@
+{
+  "name": "Zomato – Email to Sheet",
+  "nodes": [
+    {
+      "parameters": {
+        "text": "={{ $json.text }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "Date",
+              "description": "This is the date of the invoice",
+              "required": true
+            },
+            {
+              "name": "Time",
+              "description": "This is the time of the invoice",
+              "required": true
+            },
+            {
+              "name": "Restaurant",
+              "description": "This is the name of the restaurant",
+              "required": true
+            },
+            {
+              "name": "Items ",
+              "description": "These are the food items ordered",
+              "required": true
+            },
+            {
+              "name": "Total cost",
+              "type": "number",
+              "description": "This is the total cost in the invoice",
+              "required": true
+            },
+            {
+              "name": "Restaurant Address",
+              "description": "This is the address of the restaurant",
+              "required": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        944,
+        128
+      ],
+      "id": "54e25064-9911-4406-b089-9a2029acd8a5",
+      "name": "Information Extractor"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        1104,
+        272
+      ],
+      "id": "699c6162-9621-403a-9de7-9b665a1595b6",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "0mJw6adwDFRk62ts",
+          "name": "anvesh-openai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA",
+          "mode": "list",
+          "cachedResultName": "Zomato spend",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $json.output.Date }}",
+            "Time": "={{ $json.output.Time }}",
+            "Restaurant": "={{ $json.output.Restaurant }}",
+            "Items ": "={{ $json.output['Items '] }}",
+            "Restaurant address": "={{ $json.output['Restaurant Address'] }}",
+            "Total Cost": "={{ $json.output['Total cost'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Time",
+              "displayName": "Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Restaurant",
+              "displayName": "Restaurant",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Restaurant address",
+              "displayName": "Restaurant address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Items ",
+              "displayName": "Items ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Cost",
+              "displayName": "Total Cost",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1296,
+        128
+      ],
+      "id": "73b466a1-c245-44b1-b2a6-37c2c04c3dae",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8hLYyfbigEkmTjt7",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -896,
+        128
+      ],
+      "id": "02c1f266-3d9d-4192-9f36-d50daed28c38",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "content": "Kicks off the workflow on a fixed schedule (set to midnight) to check for new Zomato invoices.",
+        "height": 256,
+        "width": 176
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -944,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "9fbe5f20-0313-4be5-8ecd-bdef2e8d164e",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "Pulls in all Gmail messages that match your Zomato invoice criteria.\n",
+        "height": 256,
+        "width": 176,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -752,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "1313f167-aae6-49e8-81ac-1d47bf14c91a",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "Drops emails that don’t look like Zomato invoices (wrong subject/body/labels)",
+        "height": 256,
+        "width": 176
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -336,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "51deb4e4-c9d1-4d74-b16f-b125a1ec2c57",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "Fetches the full message plus attachments for the filtered email.",
+        "height": 256,
+        "width": 176,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -128,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "0e4a3cb5-c940-4c53-a904-ad6dcb9443e4",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "Checks if the email actually has a PDF invoice attached before doing any heavy processing.",
+        "height": 256,
+        "width": 176
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        80,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "39396a8e-b38b-4533-9697-a3647e4c99db",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "Stores the invoice PDF in a dedicated Google Drive folder for backup and reuse.",
+        "height": 256,
+        "width": 176,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        288,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "eac1f6fc-b9fa-4908-b365-6beff4a3aa16",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "Reads the stored PDF back from Drive as binary so downstream nodes can process it cleanly.",
+        "height": 256,
+        "width": 176,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        496,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "40ccbb98-b3b8-49c8-9068-65bebc4727b6",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "Converts the raw PDF invoice into machine-readable text for the AI to work with.",
+        "height": 256,
+        "width": 176
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        704,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "73aed26d-c69f-46a0-9b96-02ddf0cd9865",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "Uses an LLM to transform messy PDF text into a clean JSON record (date, restaurant, items, total, tax, etc.).",
+        "height": 240,
+        "width": 272
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        928,
+        32
+      ],
+      "typeVersion": 1,
+      "id": "a6949f3a-7893-47a5-b83c-c932ed761599",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "Logs every order into a Google Sheet so you can track monthly Zomato spends automatically. You can download [this Template](https://docs.google.com/spreadsheets/d/1p9Hoj0JE4iPilfd5P8e9E9ZGTazfN-mY66pD66QDNY4/edit?gid=0#gid=0) and copy in your personal space.",
+        "height": 256,
+        "width": 288,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1216,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "e161bf99-5465-4b9a-b821-decd18b7d1df",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -512,
+        128
+      ],
+      "id": "c815d688-4230-4b8d-86e8-37a23c52c908",
+      "name": "Process Each Email Individually"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "messageId": "={{ $json.id }}",
+        "simple": false,
+        "options": {
+          "downloadAttachments": true
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -96,
+        -16
+      ],
+      "id": "7b2c3490-f712-476c-8821-46cf25f94c83",
+      "name": "Get Full Email + Attachments",
+      "webhookId": "7df21876-1980-4dbb-9027-a54949f34244",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "hBtr6pSU2PwY4EB9",
+          "name": "muskan gmail"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "059db5ca-7b6b-4d77-876e-8596955524be",
+              "leftValue": "={{ Object.keys($binary || {}).some(k => ($binary[k].fileName || '').toLowerCase().includes('order_id')) }}\n",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        112,
+        -16
+      ],
+      "id": "9609d534-3c8b-4940-9683-ccc9d0de9766",
+      "name": "Check If Email Has PDF Invoice"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        528,
+        128
+      ],
+      "id": "8e5fef9c-ad8c-4bf4-b34c-efa603f885d7",
+      "name": "Get PDF for Processing",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "t3Iapq8GFylnHueK",
+          "name": "anvesh-drive-account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        736,
+        128
+      ],
+      "id": "897497fc-3220-4d4f-ad7f-455a94649c8b",
+      "name": "Extract Text From Invoice"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "limit": 100,
+        "simple": false,
+        "filters": {
+          "receivedAfter": "2025-10-01T00:00:00",
+          "receivedBefore": "2025-10-31T00:00:00",
+          "sender": "noreply@zomato.com"
+        },
+        "options": {
+          "downloadAttachments": true
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -720,
+        128
+      ],
+      "id": "5c4ee4f7-4ec6-4701-ae79-7a77b20878a6",
+      "name": "Get Zomato Emails",
+      "webhookId": "f789ff02-a214-4f90-99c6-3a1023a5bc2d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "hBtr6pSU2PwY4EB9",
+          "name": "muskan gmail"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "fec3ecca-57b9-4aba-af3d-990b080da7fc",
+              "leftValue": "={{ $('Process Each Email Individually').item.binary }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -304,
+        -16
+      ],
+      "id": "5a331aee-b83c-4236-a767-9983cd139da7",
+      "name": "Filter Invoice Emails"
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "={{ Object.keys($binary || {}).find(k => ($binary[k].fileName || '').toLowerCase().includes('order_id')) }}",
+        "name": "=",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1V7xNeBHHLq97x5-rT-2tRcqmjia3b9_Q",
+          "mode": "list",
+          "cachedResultName": "Zomato invoices",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1V7xNeBHHLq97x5-rT-2tRcqmjia3b9_Q"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        320,
+        128
+      ],
+      "id": "938ff282-e109-403b-a605-4c981cfcd5c2",
+      "name": "Backup Invoice",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "t3Iapq8GFylnHueK",
+          "name": "anvesh-drive-account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Information Extractor": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Process Each Email Individually",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Zomato Emails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Each Email Individually": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Filter Invoice Emails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Full Email + Attachments": {
+      "main": [
+        [
+          {
+            "node": "Check If Email Has PDF Invoice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Email Has PDF Invoice": {
+      "main": [
+        [
+          {
+            "node": "Backup Invoice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get PDF for Processing": {
+      "main": [
+        [
+          {
+            "node": "Extract Text From Invoice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Text From Invoice": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Zomato Emails": {
+      "main": [
+        [
+          {
+            "node": "Process Each Email Individually",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Invoice Emails": {
+      "main": [
+        [
+          {
+            "node": "Get Full Email + Attachments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Backup Invoice": {
+      "main": [
+        [
+          {
+            "node": "Get PDF for Processing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "dab6f651-1986-4463-8374-1fc729555753",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "17e32a252a2a6e7730cfce5e5cc930969e2fb59d69180c6f036cdff498d50e7e"
+  },
+  "id": "Zqs4NhG6HYaaSgH1",
+  "tags": []
+}
