@@ -1,4 +1,4 @@
-# 🍽️ Zomato Spend Analyzer  
+# Zomato Spend Analyzer  
 ### Automated spend tracking, monthly insights, and real-time budget alerts using n8n + AI
 This project is an end-to-end automation system built with **n8n**, **LLMs**, **Google Sheets**, and **Telegram** that helps you understand and manage your Zomato spending effortlessly.
 It reads your invoices, structures the data, generates analytics, emails monthly summaries, and alerts you when you cross your budget — completely on autopilot.
