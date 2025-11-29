@@ -38,7 +38,8 @@ See the full diagram here - ![Architecture](docs/architecture-diagram.png)
 ## Workflows
 
 ### 1. Invoice → Sheet (Daily)  
-'workflows/zomato-email-to-sheet.json'
+`workflows/zomato-email-to-sheet.json`
+
 Processes daily emails and appends clean structured invoice data into Google Sheets.
 
 ### 2. Monthly Report & Recipes (Monthly)  
