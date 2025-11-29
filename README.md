@@ -39,10 +39,12 @@ See the full diagram here - ![Architecture](docs/architecture-diagram.png)
 
 ### 1. Invoice → Sheet (Daily)  
 `workflows/zomato-email-to-sheet.json`
+
 Processes daily emails and appends clean structured invoice data into Google Sheets.
 
 ### 2. Monthly Report & Recipes (Monthly)  
 `workflows/zomato-monthly-report-&-recipes.json`
+
 Runs once a month to generate:
 - Spend analysis email  
 - Recipe recommendation email  
@@ -50,6 +52,7 @@ Includes charts + AI-generated insights.
 
 ### 3. Budget Alerts (Daily)  
 `workflows/zomato-budget-alerts.json`
+
 Monitors spend progression and pushes Telegram notifications at key thresholds.
 
 ## Docs & Screenshots
