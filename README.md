@@ -35,19 +35,7 @@ Fully automated, no manual checks required.
 ## Architecture Overview
 See the full diagram here - ![Architecture](docs/architecture-diagram.png)
 
-##  Repository Structure
-zomato-spend-analyzer/
-├─ workflows/
-│ ├─ zomato-email-to-sheet.json
-│ ├─ zomato-monthly-report-and-recipes.json
-│ └─ zomato-budget-alerts.json
-├─ docs/
-│ ├─ architecture-diagram.png
-│ └─ sample-report.png
-├─ README.md
-├─ LICENSE
-
-## 🔧 Workflows
+## Workflows
 
 ### 1. Invoice → Sheet (Daily)  
 `workflows/zomato-email-to-sheet.json`  
@@ -64,11 +52,11 @@ Includes charts + AI-generated insights.
 `workflows/zomato-budget-alerts.json`  
 Monitors spend progression and pushes Telegram notifications at key thresholds.
 
-## 📸 Docs & Screenshots
+## Docs & Screenshots
 - **Monthly Spend Summary Email** → `/docs/Sample-monthly-analyis.png`  
 - **Recipe Recommendations Email** → `docs/Sample-monthly-recipes.png` 
 
-## 🛠️ Tech Stack
+## Tech Stack
 - **n8n** (automation & workflow engine)  
 - **OpenAI / LLMs** (invoice parsing, recipe generation)  
 - **Google Sheets** (data storage)  
@@ -94,5 +82,5 @@ I wanted a simple way to track my food delivery spending without opening the app
 - Connect data to Notion  
 - Generate spend forecasts
   
-## 📄 License  
+## License  
 MIT License — free to use, modify, and share.
