@@ -25,14 +25,12 @@
       "parameters": {
         "documentId": {
           "__rl": true,
-          "value": "1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA",
+          "value": "<GOOGLE_SHEET_ID>",
           "mode": "list",
-          "cachedResultName": "Zomato spend",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
-          "value": "gid=0",
+          "value": "<SHEET_GID>",
           "mode": "list",
           "cachedResultName": "Sheet1",
           "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA/edit#gid=0"
@@ -48,9 +46,7 @@
       "id": "3c2fb54a-d2bc-44a9-8eae-ae7ba38818ad",
       "name": "Get row(s) in sheet",
       "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "8hLYyfbigEkmTjt7",
-          "name": "Google Sheets account"
+        "<REDACTED>": true
         }
       }
     },
@@ -228,20 +224,18 @@
       "id": "f6391102-f371-4f47-9230-7f988c0b9f89",
       "name": "OpenAI Chat Model1",
       "credentials": {
-        "openAiApi": {
-          "id": "0mJw6adwDFRk62ts",
-          "name": "anvesh-openai"
+        "<REDACTED>": true
         }
       }
     },
     {
       "parameters": {
-        "sendTo": "muskansmail0@gmail.com",
+        "sendTo": "<RECIPIENT_EMAIL>",
         "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
         "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
         "options": {
           "appendAttribution": false,
-          "senderName": "Anvesh"
+          "senderName": "<SENDER_NAME>"
         }
       },
       "type": "n8n-nodes-base.gmailTool",
@@ -252,11 +246,8 @@
       ],
       "id": "bea1eb14-f209-45e1-a994-f29113622bf8",
       "name": "Send a message in Gmail",
-      "webhookId": "27a5a598-5bf1-4adb-8da5-b2ef0a464e84",
       "credentials": {
-        "gmailOAuth2": {
-          "id": "hBtr6pSU2PwY4EB9",
-          "name": "muskan gmail"
+        "<REDACTED>": true
         }
       }
     },
@@ -332,9 +323,9 @@
     },
     {
       "parameters": {
-        "sendTo": "muskansmail0@gmail.com",
-        "subject": "={{ 'Zomato Spend Report - ' + $now.format('LL/yyyy') }}",
-        "message": "={{\n(() => {\n  const s = $json.summary || {};\n  const datasets = $json.datasets || {};\n  const rupee = n => 'INR ' + (Math.round((Number(n) + Number.EPSILON)*100)/100).toLocaleString('en-IN');\n\n  const topLabel = (obj) => {\n    if (!obj || !obj.labels || !obj.values) return 'N/A';\n    const vals = obj.values.map(x => Number(x) || 0);\n    const idx = vals.indexOf(Math.max(...vals));\n    return obj.labels[idx] || 'N/A';\n  };\n\n  return `\n  <div style=\"font-family: Arial, sans-serif; font-size: 14px;\">\n    <p>Hi,</p>\n\n    <p>Hope you are having a great day. Below is the Zomato spend report for this month.</p>\n\n    <p><b>Key highlights:</b></p>\n    <ol>\n      <li><b>Total Spend:</b> ${rupee(s.totalSpend)}</li>\n      <li><b>Day of the week with most spend:</b> ${topLabel(datasets.dow)}</li>\n      <li><b>Most frequently visited restaurant:</b> ${topLabel(datasets.restFreq)}</li>\n      <li><b>Week with most spend:</b> ${topLabel(datasets.weekSpend)}</li>\n    </ol>\n\n    <p>Attached are the charts with spend patterns.</p>\n\n    <p>Best,<br>\n    Anvesh</p>\n  </div>\n  `;\n})()\n}}",
+        "sendTo": "<RECIPIENT_EMAIL>",
+        "subject": "={{ 'Monthly Spend Report - ' + $now.format('LL/yyyy') }}",
+        "message": "={{\n(() => {\n  const s = $json.summary || {};\n  const datasets = $json.datasets || {};\n  const rupee = n => 'INR ' + (Math.round((Number(n) + Number.EPSILON)*100)/100).toLocaleString('en-IN');\n\n  const topLabel = (obj) => {\n    if (!obj || !obj.labels || !obj.values) return 'N/A';\n    const vals = obj.values.map(x => Number(x) || 0);\n    const idx = vals.indexOf(Math.max(...vals));\n    return obj.labels[idx] || 'N/A';\n  };\n\n  return `\n  <div style=\"font-family: Arial, sans-serif; font-size: 14px;\">\n    <p>Hi,</p>\n\n    <p>Hope you are having a great day. Below is the Zomato spend report for this month.</p>\n\n    <p><b>Key highlights:</b></p>\n    <ol>\n      <li><b>Total Spend:</b> ${rupee(s.totalSpend)}</li>\n      <li><b>Day of the week with most spend:</b> ${topLabel(datasets.dow)}</li>\n      <li><b>Most frequently visited restaurant:</b> ${topLabel(datasets.restFreq)}</li>\n      <li><b>Week with most spend:</b> ${topLabel(datasets.weekSpend)}</li>\n    </ol>\n\n    <p>Attached are the charts with spend patterns.</p>\n\n    <p>Best,<br>\n    &lt;SENDER_NAME&gt;</p>\n  </div>\n  `;\n})()\n}}",
         "options": {
           "appendAttribution": false,
           "attachmentsUi": {
@@ -366,11 +357,8 @@
       ],
       "id": "5904bf5d-b930-44ab-87d8-0985209d76a1",
       "name": "Send Weekly Zomato Summary Email",
-      "webhookId": "6acb4a69-f345-4e4a-a397-9beff743d272",
       "credentials": {
-        "gmailOAuth2": {
-          "id": "hBtr6pSU2PwY4EB9",
-          "name": "muskan gmail"
+        "<REDACTED>": true
         }
       }
     },
@@ -752,10 +740,8 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "c6a58ff2-427f-47b9-80c0-0f747646bfe0",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "17e32a252a2a6e7730cfce5e5cc930969e2fb59d69180c6f036cdff498d50e7e"
   },
   "id": "aexI8QuleTPGIEip",
   "tags": []
