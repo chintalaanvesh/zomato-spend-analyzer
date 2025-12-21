@@ -69,9 +69,7 @@
       "id": "699c6162-9621-403a-9de7-9b665a1595b6",
       "name": "OpenAI Chat Model",
       "credentials": {
-        "openAiApi": {
-          "id": "0mJw6adwDFRk62ts",
-          "name": "anvesh-openai"
+        "<REDACTED>": true
         }
       }
     },
@@ -80,14 +78,12 @@
         "operation": "append",
         "documentId": {
           "__rl": true,
-          "value": "1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA",
+          "value": "<GOOGLE_SHEET_ID>",
           "mode": "list",
-          "cachedResultName": "Zomato spend",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
-          "value": "gid=0",
+          "value": "<SHEET_GID>",
           "mode": "list",
           "cachedResultName": "Sheet1",
           "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA/edit#gid=0"
@@ -173,9 +169,7 @@
       "id": "73b466a1-c245-44b1-b2a6-37c2c04c3dae",
       "name": "Append row in sheet",
       "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "8hLYyfbigEkmTjt7",
-          "name": "Google Sheets account"
+        "<REDACTED>": true
         }
       }
     },
@@ -381,11 +375,8 @@
       ],
       "id": "7b2c3490-f712-476c-8821-46cf25f94c83",
       "name": "Get Full Email + Attachments",
-      "webhookId": "7df21876-1980-4dbb-9027-a54949f34244",
       "credentials": {
-        "gmailOAuth2": {
-          "id": "hBtr6pSU2PwY4EB9",
-          "name": "muskan gmail"
+        "<REDACTED>": true
         }
       }
     },
@@ -442,9 +433,7 @@
       "id": "8e5fef9c-ad8c-4bf4-b34c-efa603f885d7",
       "name": "Get PDF for Processing",
       "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "t3Iapq8GFylnHueK",
-          "name": "anvesh-drive-account"
+        "<REDACTED>": true
         }
       }
     },
@@ -468,9 +457,9 @@
         "limit": 100,
         "simple": false,
         "filters": {
-          "receivedAfter": "2025-10-01T00:00:00",
-          "receivedBefore": "2025-10-31T00:00:00",
-          "sender": "noreply@zomato.com"
+          "receivedAfter": "<START_DATE>",
+          "receivedBefore": "<END_DATE>",
+          "sender": "<INVOICE_SENDER_EMAIL>"
         },
         "options": {
           "downloadAttachments": true
@@ -484,7 +473,6 @@
       ],
       "id": "5c4ee4f7-4ec6-4701-ae79-7a77b20878a6",
       "name": "Get Zomato Emails",
-      "webhookId": "f789ff02-a214-4f90-99c6-3a1023a5bc2d",
       "credentials": {
         "gmailOAuth2": {
           "id": "hBtr6pSU2PwY4EB9",
@@ -537,10 +525,8 @@
         },
         "folderId": {
           "__rl": true,
-          "value": "1V7xNeBHHLq97x5-rT-2tRcqmjia3b9_Q",
+          "value": "<GOOGLE_DRIVE_FOLDER_ID>",
           "mode": "list",
-          "cachedResultName": "Zomato invoices",
-          "cachedResultUrl": "https://drive.google.com/drive/folders/1V7xNeBHHLq97x5-rT-2tRcqmjia3b9_Q"
         },
         "options": {}
       },
@@ -553,9 +539,7 @@
       "id": "938ff282-e109-403b-a605-4c981cfcd5c2",
       "name": "Backup Invoice",
       "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "t3Iapq8GFylnHueK",
-          "name": "anvesh-drive-account"
+        "<REDACTED>": true
         }
       }
     }
@@ -700,11 +684,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "dab6f651-1986-4463-8374-1fc729555753",
-  "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "17e32a252a2a6e7730cfce5e5cc930969e2fb59d69180c6f036cdff498d50e7e"
-  },
+
   "id": "Zqs4NhG6HYaaSgH1",
   "tags": []
 }
