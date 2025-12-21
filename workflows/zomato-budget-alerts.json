@@ -12,14 +12,13 @@
         },
         "documentId": {
           "__rl": true,
-          "value": "1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA",
+          "value": "<GOOGLE_SHEET_ID>"
+
           "mode": "list",
-          "cachedResultName": "Zomato spend",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
-          "value": "gid=0",
+          "value": "<SHEET_GID>",
           "mode": "list",
           "cachedResultName": "Sheet1",
           "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA/edit#gid=0"
@@ -36,9 +35,7 @@
       "id": "72644e8b-391f-4fb4-ac0a-47a125f84b9f",
       "name": "Google Sheets Trigger",
       "credentials": {
-        "googleSheetsTriggerOAuth2Api": {
-          "id": "xdVLHGA8Xd6EgPlV",
-          "name": "Google Sheets Trigger account"
+        "<REDACTED>": true
         }
       }
     },
@@ -48,12 +45,10 @@
           "__rl": true,
           "value": "1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA",
           "mode": "list",
-          "cachedResultName": "Zomato spend",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
-          "value": 1717588686,
+          "value": "<SHEET_GID>",
           "mode": "list",
           "cachedResultName": "Sheet2",
           "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m4F70SiA3-ssohtcXP1VJ_vdQISYi81zDpLRYQh8SbA/edit#gid=1717588686"
@@ -70,8 +65,7 @@
       "name": "Get row(s) in sheet1",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "8hLYyfbigEkmTjt7",
-          "name": "Google Sheets account"
+          "<REDACTED>": true
         }
       }
     },
@@ -166,8 +160,8 @@
     },
     {
       "parameters": {
-        "chatId": "1180962879",
-        "text": "Hey Anvesh, you’ve hit 80% of your monthly budget for this month!",
+        "chatId": "<Telegram Chat ID>",
+        "text": "You’ve hit 80% of your monthly budget for this month!",
         "additionalFields": {
           "appendAttribution": false
         }
@@ -180,18 +174,16 @@
       ],
       "id": "a357989c-a911-4990-a383-5103e5f7c948",
       "name": "Send a text message",
-      "webhookId": "0c9a9ee7-7c44-4ee9-9b60-1e9157bdcdc6",
       "credentials": {
         "telegramApi": {
-          "id": "Ghc3uwrpKW1RrXnS",
-          "name": "anveshPA_bot account"
+          "<REDACTED>": true
         }
       }
     },
     {
       "parameters": {
-        "chatId": "1180962879",
-        "text": "Hey Anvesh, you have exceeded the current month's budget",
+        "chatId": "TELEGRAM_CHAT_ID",
+        "text": "You have exceeded the current month's budget",
         "additionalFields": {
           "appendAttribution": false
         }
@@ -204,11 +196,9 @@
       ],
       "id": "51508441-11d4-412a-a3a5-8ffcb7e1d0c2",
       "name": "Send a text message1",
-      "webhookId": "db17b995-1418-4ca9-83b6-d60c5e02f24a",
       "credentials": {
         "telegramApi": {
-          "id": "Ghc3uwrpKW1RrXnS",
-          "name": "anveshPA_bot account"
+          "<REDACTED>": true
         }
       }
     },
@@ -428,14 +418,9 @@
       ]
     }
   },
-  "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "cb937c53-7f82-4b04-8957-2e2ce7558631",
-  "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "17e32a252a2a6e7730cfce5e5cc930969e2fb59d69180c6f036cdff498d50e7e"
   },
   "id": "0aam7xjaQyW1GG1x",
   "tags": []
