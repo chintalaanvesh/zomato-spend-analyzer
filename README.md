@@ -32,8 +32,9 @@ Reads cumulative monthly spend from your sheet and:
 
 Fully automated, no manual checks required.
 
-## Architecture Overview
-See the full diagram here - ![Architecture](docs/architecture-diagram.png)
+## Workflow Canvas
+
+![Zomato Spend Analyzer — n8n Workflow](assets/workflow.png)
 
 ## Workflows
 
